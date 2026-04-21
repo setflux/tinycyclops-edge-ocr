@@ -54,7 +54,7 @@ on TinyCyclops.
 ## 3. Clone TinyCyclops
 
 ```bash
-git clone https://github.com/YOUR_ORG/tinycyclops-edge-ocr.git
+git clone https://github.com/setflux/tinycyclops-edge-ocr.git
 cd tinycyclops-edge-ocr
 export TINYCYCLOPS_ROOT="$PWD"
 ```
@@ -109,6 +109,11 @@ cd "$TINYCYCLOPS_ROOT/third_party/hailo-apps/hailo_apps/python/standalone_apps/p
 python -m pip install -r requirements.txt
 ```
 
+If this command tries to replace system-provided Hailo, OpenCV, or Numpy
+packages, stop and align the environment with the HailoRT / Hailo Apps release
+you installed. The tested TinyCyclops environment keeps Hailo system packages
+visible through `--system-site-packages`.
+
 Download the Hailo-8 OCR HEFs and sample images:
 
 ```bash
@@ -124,6 +129,10 @@ $TINYCYCLOPS_ROOT/third_party/hailo-apps/hailo_apps/python/standalone_apps/paddl
 $TINYCYCLOPS_ROOT/third_party/hailo-apps/hailo_apps/python/standalone_apps/paddle_ocr/ocr_img1.png
 $TINYCYCLOPS_ROOT/third_party/hailo-apps/hailo_apps/python/standalone_apps/paddle_ocr/ocr_img2.png
 ```
+
+This repository does not distribute Hailo Apps, HailoRT, device drivers, or HEF
+assets. Prepare those pieces through Hailo's official channels for your own
+device, OS, runtime version, and model target.
 
 ## 6. Run A Hailo OCR Smoke Test
 
@@ -144,6 +153,10 @@ If this fails, verify:
 - The active Python is `$TINYCYCLOPS_VENV/bin/python`.
 - `hailo_platform`, `cv2`, `numpy`, `paddlepaddle`, `shapely`,
   `pyclipper`, `symspellpy`, `python-dotenv`, and `PyYAML` import successfully.
+
+This is the minimum hardware-backed checkpoint. It uses the sample images
+downloaded by Hailo Apps, so it can pass before ICDAR or CCPD datasets are
+prepared.
 
 ## 7. Prepare Datasets
 
@@ -201,6 +214,8 @@ curl -s http://127.0.0.1:18041/health
 ```
 
 The health response should report whether HEFs and dataset presets are visible.
+The web service can start before every dataset is present, but preset workloads
+only run when their corresponding data and HEF assets are available.
 
 ## 9. Optional Environment Variables
 

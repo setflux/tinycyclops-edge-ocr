@@ -3,6 +3,24 @@
 This document describes optional command-line utilities for running OCR
 workloads and inspecting generated outputs outside the web UI.
 
+## Prerequisites
+
+Run these utilities from the repository root after completing
+`docs/installation.md`.
+
+Required before OCR utilities can perform real inference:
+
+- `TINYCYCLOPS_ROOT` points at the cloned repository, or commands are run from
+  the repository root.
+- `$TINYCYCLOPS_VENV` points at the Python environment created with
+  `--system-site-packages`.
+- HailoRT is installed and `hailortcli scan` sees the Hailo device.
+- `third_party/hailo-apps` exists at the tested Hailo Apps revision.
+- `ocr_det.hef` and `ocr.hef` exist under the Hailo PaddleOCR app directory, or
+  `TINY_CYCLOPS_OCR_DET_HEF` / `TINY_CYCLOPS_OCR_HEF` point at compatible local
+  HEF files.
+- The input dataset or image path exists locally.
+
 ## OCR Text Pipeline
 
 TinyCyclops wraps Hailo's official PaddleOCR detector and recognizer without

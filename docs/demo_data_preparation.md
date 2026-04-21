@@ -3,6 +3,11 @@
 TinyCyclops does not commit datasets. Prepare datasets locally under
 `$TINYCYCLOPS_ROOT/data`.
 
+Datasets are not required for the official Hailo PaddleOCR smoke test. They are
+required only when running TinyCyclops preset workloads through the CLI or web
+UI. Use ICDAR 2015 first for a small public OCR preset; CCPD2019 is optional and
+large.
+
 ## ICDAR 2015 Challenge 4 Test Set
 
 Source:

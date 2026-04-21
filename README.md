@@ -43,7 +43,7 @@ Additional docs:
 The short path is:
 
 ```bash
-git clone https://github.com/YOUR_ORG/tinycyclops-edge-ocr.git
+git clone https://github.com/setflux/tinycyclops-edge-ocr.git
 cd tinycyclops-edge-ocr
 export TINYCYCLOPS_ROOT="$PWD"
 
@@ -93,6 +93,11 @@ Pi needs the following repo-external runtime pieces.
 | ICDAR data | `data/icdar2015` | Preset Workload 1. |
 | CCPD data | `data/ccpd` | Preset Workload 2 randomized license-plate workload. |
 | systemd unit | `/etc/systemd/system/tinycyclops.service` | Optional boot-time FastAPI web service. |
+
+The first meaningful install checkpoint is the official PaddleOCR smoke test in
+`scripts/run_official_paddle_ocr.sh`. That test uses Hailo's downloaded sample
+images and does not require ICDAR or CCPD datasets. Dataset preparation is only
+needed before running TinyCyclops preset workloads through the CLI or web UI.
 
 ## Python Modules
 
@@ -163,6 +168,11 @@ also be overridden for the official smoke wrapper:
 export TINY_CYCLOPS_OCR_DET_HEF=/path/to/ocr_det.hef
 export TINY_CYCLOPS_OCR_HEF=/path/to/ocr.hef
 ```
+
+This repository does not vendor HAILO Apps, HEF files, HailoRT packages, or
+device drivers. Each installer must obtain HAILO runtime packages and OCR HEF
+assets through HAILO's official channels for their own device, OS, runtime
+version, and model target.
 
 ## Datasets
 

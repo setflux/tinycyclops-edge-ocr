@@ -29,7 +29,6 @@ Not tracked in git:
 - `third_party/`: HAILO official app checkout and downloaded HEF assets.
 - `$TINYCYCLOPS_VENV` or `$TINYCYCLOPS_ROOT/.venv`: user-created Python runtime.
 - `/etc/systemd/system/tinycyclops.service`: optional local service unit.
-- Any reverse-proxy configuration.
 
 ## Quickstart
 
@@ -291,9 +290,6 @@ RestartSec=2
 WantedBy=multi-user.target
 ```
 
-The public endpoint can be handled by any reverse proxy in front of the local
-TinyCyclops service. Reverse-proxy configuration is outside this repository.
-
 ## Health And Smoke Tests
 
 Official HAILO PaddleOCR smoke test:
@@ -346,4 +342,4 @@ Do not commit `runs/`.
 5. Recreate `third_party/hailo-apps` and download `ocr_det.hef` / `ocr.hef`.
 6. Prepare `data/icdar2015` and `data/ccpd` as described above.
 7. Install the systemd unit if this host should run the web service.
-8. Check `http://127.0.0.1:18041/health` before exposing through Caddy.
+8. Check `http://127.0.0.1:18041/health`.

@@ -1,0 +1,27 @@
+# Local datasets and generated outputs.
+# Keep the directory skeleton in git, but ignore runtime contents.
+data/*
+!data/.gitkeep
+runs/*
+!runs/.gitkeep
+
+# External source checkouts and downloaded model assets.
+# Keep the directory skeleton in git, but ignore vendored/downloaded contents.
+third_party/*
+!third_party/.gitkeep
+
+# Runtime logs and caches
+*.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local Python environments
+.venv/
+venv/
+env/
+
+# Editor and OS noise
+.DS_Store
+.idea/
+.vscode/

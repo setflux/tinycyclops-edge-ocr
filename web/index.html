@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TinyCyclops - setflux</title>
+    <link rel="stylesheet" href="/static/styles.css?v=20260416-mobile-2" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero hero--light">
+        <div>
+          <p class="eyebrow">Raspberry Pi + HAILO npu OCR</p>
+          <h1>TinyCyclops, a fast little one-eye</h1>
+          <p class="lede">
+            <span>Alphanumeric OCR only for now.</span>
+            <span>Tiny is still learning the rest! -)</span>
+          </p>
+        </div>
+        <img class="hero-logo" src="/assets/tinycyclops-logo.png" alt="TinyCyclops logo" />
+      </section>
+
+      <section class="control-panel" aria-labelledby="run-title">
+        <div class="mode-tabs" role="tablist" aria-label="TinyCyclops workload mode">
+          <button
+            id="preset1-tab"
+            class="mode-tab is-active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="preset1-panel"
+            data-mode-tab="preset1"
+          >
+            Preset Workload 1
+          </button>
+          <button
+            id="preset2-tab"
+            class="mode-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="preset2-panel"
+            data-mode-tab="preset2"
+          >
+            Preset Workload 2
+          </button>
+          <button
+            id="custom-tab"
+            class="mode-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="custom-panel"
+            data-mode-tab="custom"
+          >
+            Custom Input
+          </button>
+          <button
+            id="architecture-tab"
+            class="mode-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="architecture-panel"
+            data-mode-tab="architecture"
+          >
+            Architecture
+          </button>
+        </div>
+
+        <div id="preset1-panel" class="mode-panel is-active" role="tabpanel" aria-labelledby="preset1-tab">
+          <div>
+            <p class="eyebrow">Preset Workload 1</p>
+            <h2 id="run-title">'ICDAR 2015' Scene Text</h2>
+            <p>
+              Default: work block 20, HEF batch 10 and 500 images.<br />
+              <em>
+                ICDAR (International Conference on Document Analysis and Recognition) 2015 Robust
+                Reading Competition (Challenge 4: Incidental Scene Text) test images and ground
+                truth are provided by the
+                <a href="https://rrc.cvc.uab.es/" target="_blank" rel="noopener noreferrer"
+                  >RRC website</a
+                >. Dataset terms and license are available at the
+                <a href="https://rrc.cvc.uab.es/?ch=4&com=downloads" target="_blank" rel="noopener noreferrer"
+                  >official RRC downloads page</a
+                >.
+              </em>
+            </p>
+          </div>
+
+          <form class="run-form" data-preset-form="icdar2015" data-job-label="ICDAR">
+            <label>
+              Limit
+              <input name="limit" type="number" min="1" max="500" placeholder="500" />
+            </label>
+            <label>
+              Work block
+              <input
+                name="workBlockSize"
+                type="number"
+                min="1"
+                max="500"
+                value="20"
+                disabled
+                title="Fixed to the tuned TinyCyclops demo profile."
+              />
+            </label>
+            <label>
+              HEF batch
+              <input
+                name="hefBatchSize"
+                type="number"
+                min="1"
+                max="20"
+                value="10"
+                disabled
+                title="Fixed to the tuned TinyCyclops demo profile."
+              />
+            </label>
+            <button data-run-button type="submit">Start Workload</button>
+          </form>
+        </div>
+
+        <div id="preset2-panel" class="mode-panel" role="tabpanel" aria-labelledby="preset2-tab" hidden>
+          <div>
+            <p class="eyebrow">Preset Workload 2</p>
+            <h2>'CCPD' Car License Plates</h2>
+            <p>
+              Default: work block 20, HEF batch 10 and 1,000 images randomly selected from
+              354,998 validated source images.<br />
+              <em>
+                Images are drawn from the
+                <a href="https://zenodo.org/records/15647076" target="_blank" rel="noopener noreferrer"
+                  >Zenodo CCPD2019 archive</a
+                >
+                (Chinese City Parking Dataset 2019, CC-BY-4.0), a large real-world Chinese license
+                plate dataset captured across varied parking scenes.
+              </em>
+            </p>
+          </div>
+
+          <form class="run-form" data-preset-form="ccpd" data-job-label="CCPD">
+            <label>
+              Limit
+              <input name="limit" type="number" min="1" max="1000" placeholder="1000" />
+            </label>
+            <label>
+              Work block
+              <input
+                name="workBlockSize"
+                type="number"
+                min="1"
+                max="500"
+                value="20"
+                disabled
+                title="Fixed to the tuned TinyCyclops demo profile."
+              />
+            </label>
+            <label>
+              HEF batch
+              <input
+                name="hefBatchSize"
+                type="number"
+                min="1"
+                max="20"
+                value="10"
+                disabled
+                title="Fixed to the tuned TinyCyclops demo profile."
+              />
+            </label>
+            <button data-run-button type="submit">Start Workload</button>
+          </form>
+        </div>
+
+        <div id="custom-panel" class="mode-panel" role="tabpanel" aria-labelledby="custom-tab" hidden>
+          <div>
+            <p class="eyebrow">Custom Input</p>
+            <h2>Upload mode</h2>
+            <p>
+              Tiny can process up to 10 images at once. Thumbnails enter Processed Frames immediately,
+              then move through Uploaded, Processing, and Done states. No worries:
+              images are held only temporarily while OCR runs.
+            </p>
+          </div>
+
+          <form id="custom-form" class="custom-form" aria-label="Custom image upload">
+            <div class="custom-file-row">
+              <label class="custom-file-drop">
+                <span>Upload Queue</span>
+                <strong>Select OCR images</strong>
+                <input
+                  id="custom-files-input"
+                  name="files"
+                  type="file"
+                  accept=".jpg,.jpeg,.png,.bmp,image/jpeg,image/png,image/bmp"
+                  multiple
+                />
+              </label>
+              <p id="custom-selection-note" class="custom-selection-note" aria-live="polite"></p>
+            </div>
+            <p>jpg / png / bmp · max 10 images · max 10 MiB each · extra files are skipped by filename</p>
+            <div class="custom-actions">
+              <button id="custom-upload-button" type="submit">Upload and Process Images</button>
+              <button id="custom-reset-button" type="button">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div
+          id="architecture-panel"
+          class="mode-panel architecture-panel"
+          role="tabpanel"
+          aria-labelledby="architecture-tab"
+          hidden
+        >
+          <div class="architecture-intro">
+            <p class="eyebrow">Architecture</p>
+            <h2>Small box, single eye, fast memory path.</h2>
+            <p>
+              TinyCyclops is a Raspberry Pi 5 + HAILO OCR demo designed around a simple
+              constraint: the accelerator is precious, so every byte around it has to move with
+              intent. The web layer does not reinvent OCR. It stages workloads, explains progress,
+              and lets the HAILO-backed pipeline do the heavy lifting.
+            </p>
+          </div>
+
+          <div class="architecture-grid">
+            <article>
+              <span>01</span>
+              <h3>Why Tiny?</h3>
+              <p>
+                Because the host is tiny on purpose: Raspberry Pi 5. Instead of pretending it is a
+                cloud server, TinyCyclops leans into edge constraints and keeps the parent web
+                service lightweight.
+              </p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Why Cyclops?</h3>
+              <p>
+                Because the HAILO-8 path behaves like one precious eye. The demo admits one OCR
+                workload at a time, protects the HEF runtime from contention, and rejects extra
+                visitors politely instead of hiding them in a queue.
+              </p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Why Fast?</h3>
+              <p>
+                Images are loaded into a memory-resident WorkBlock pipeline, detection results are
+                cropped in memory, and recognition follows without slow handoffs. Finished image
+                frames are released as soon as their OCR result is collected.
+              </p>
+            </article>
+          </div>
+
+          <div class="architecture-flow" aria-label="TinyCyclops architecture flow">
+            <article>
+              <h3>Dataset Registry</h3>
+              <p>
+                Presets are declared centrally. ICDAR is a fixed 500-image scene text run. CCPD
+                uses a validated 354,998-image index and draws a fresh category-balanced 1,000-image
+                list on every Start.
+              </p>
+            </article>
+            <article>
+              <h3>Randomized Workload</h3>
+              <p>
+                CCPD does not copy the source tree. Each job materializes only job-local symlinks
+                under <code>runs/web_ccpd_*/input_images</code>, then records the exact list in
+                <code>workload_manifest.json</code>.
+              </p>
+            </article>
+            <article>
+              <h3>FastAPI Parent</h3>
+              <p>
+                FastAPI serves the console, upload API, artifacts, thumbnails, and Server-Sent
+                Events. A single worker policy guards the HAILO runtime; busy requests are rejected
+                immediately with a user-visible message.
+              </p>
+            </article>
+            <article>
+              <h3>OCR Child Process</h3>
+              <p>
+                Each run starts a short-lived child process that owns Paddle, OpenCV, and HAILO
+                native state. When the child exits, the OS can reclaim accelerator and native memory
+                cleanly.
+              </p>
+            </article>
+            <article>
+              <h3>WorkBlock Pipeline</h3>
+              <p>
+                Work blocks separate image grouping from HEF batch size. Detection, crop, and
+                recognition stay close to memory, while progress events stream back to the browser
+                as frames complete.
+              </p>
+            </article>
+            <article>
+              <h3>Visual Console</h3>
+              <p>
+                The browser shows the system thinking: randomizing, processing, thumbnails,
+                selected originals, detected text overlays, FPS, detections, elapsed time, and
+                downloadable run artifacts.
+              </p>
+            </article>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="status-strip ocr-section">
+        <article>
+          <span>Images Processed</span>
+          <strong id="processed">0 / 0</strong>
+        </article>
+        <article>
+          <span>FPS</span>
+          <strong id="fps">0.00</strong>
+        </article>
+        <article>
+          <span>Detections</span>
+          <strong id="detections">0</strong>
+        </article>
+        <article>
+          <span>Elapsed</span>
+          <strong id="elapsed">0.00s</strong>
+        </article>
+      </section>
+
+      <section class="progress-card ocr-section">
+        <div class="progress-head">
+          <span id="job-label">No active job</span>
+          <span id="job-status">idle</span>
+        </div>
+        <div class="progress-track" aria-label="Workload progress">
+          <div id="progress-bar"></div>
+        </div>
+      </section>
+
+      <section class="dashboard ocr-section">
+        <article class="latest-card selected-card">
+          <p class="eyebrow">IMAGE SELECTED</p>
+          <div id="selected-image-shell" class="selected-image-shell is-empty">
+            <img id="selected-image" alt="" hidden />
+            <div id="selected-image-empty" class="selected-image-empty">Select a processed frame.</div>
+            <div class="selected-image-overlay">
+              <h2 id="latest-image">detected texts</h2>
+              <p id="latest-text">Ready to serve!</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="thumb-card">
+          <p class="eyebrow">Processed Frames</p>
+          <div id="thumb-grid" class="thumb-grid" aria-live="polite"></div>
+        </article>
+      </section>
+
+      <section class="results-card ocr-section">
+        <div>
+          <p class="eyebrow">Artifacts</p>
+          <h2>Run Output</h2>
+        </div>
+        <div id="artifacts" class="artifact-links">No artifacts yet.</div>
+      </section>
+    </main>
+    <p id="attribution">
+      ICDAR 2015/CCPD dataset used for demo purposes.<br />
+      Copyright © 2026 setflux. All rights reserved.
+    </p>
+
+    <script src="/static/app.js?v=20260416-arch-hide"></script>
+  </body>
+</html>

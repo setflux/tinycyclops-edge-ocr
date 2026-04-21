@@ -341,15 +341,3 @@ OCR and web runs write artifacts under `runs/`. Typical outputs:
 
 Custom uploads are temporary runtime material under `runs/web_custom_uploads`.
 Do not commit `runs/`.
-
-## Restore Checklist For Another Raspberry Pi 5
-
-1. Clone TinyCyclops to a host-local installation path and set `TINYCYCLOPS_ROOT` to that path.
-2. Install HailoRT and verify `hailortcli --version` and `hailortcli scan`.
-3. Recreate `$TINYCYCLOPS_VENV` or `$TINYCYCLOPS_ROOT/.venv` with
-   `--system-site-packages`.
-4. Install/verify the active OCR Python modules listed above.
-5. Recreate `third_party/hailo-apps` and download `ocr_det.hef` / `ocr.hef`.
-6. Prepare `data/icdar2015` and `data/ccpd` as described above.
-7. Install the systemd unit if this host should run the web service.
-8. Check `http://127.0.0.1:18041/health`.
